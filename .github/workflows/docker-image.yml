@@ -1,6 +1,12 @@
-stages:
-    - build_executables
-    - create_docker_images
+on:
+  push:
+    branches:
+      - 'master'
+    tags:
+      - '*.*.*'
+  pull_request:
+    branches:
+      - 'master
 
 build_generator_job:
     stage: build_executables
@@ -47,8 +53,7 @@ create_logger_docker_image_job:
         changes:
             - Logger/**/*
 
-services:
-  - docker:dind
+
 create_generator_docker_image_job:
     stage: create_docker_images
     image: docker:latest
@@ -61,8 +66,7 @@ create_generator_docker_image_job:
         changes:
             - Generator/**/*
 
-services:
-  - docker:dind
+
 create_collector_docker_image_job:
     stage: create_docker_images
     image: docker:latest
@@ -75,8 +79,7 @@ create_collector_docker_image_job:
         changes:
             - Collector/**/*
 
-services:
-  - docker:dind
+
 create_estimator_docker_image_job:
     stage: create_docker_images
     image: docker:latest
@@ -89,8 +92,7 @@ create_estimator_docker_image_job:
         changes:
             - Estimator/**/*
             
-services:
-  - docker:dind
+
 create_predictor_docker_image_job:
     stage: create_docker_images
     image: docker:latest
@@ -103,8 +105,7 @@ create_predictor_docker_image_job:
         changes:
             - Predictor/**/*
             
-services:
-  - docker:dind
+
 create_learner_docker_image_job:
     stage: create_docker_images
     image: docker:latest
