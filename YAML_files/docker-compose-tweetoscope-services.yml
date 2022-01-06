@@ -1,0 +1,48 @@
+# YAML file to create all the images from the tweetoscope project at one using the compose function of docker
+
+version: '3.3'
+
+services:
+  logger:
+    build: 
+      context: ../Logger
+      dockerfile: Dockerfile.logger
+  generator:
+    build: 
+      context: ../Generator
+      dockerfile: Dockerfile.generator
+      # Uncomment the next lines if you want to pass params files and the .csv files through volumes. In that case, 
+      # the paths must be specified.
+    #volumes:
+      #- ./Generator/params_docker.config:/usr/src/generator/params_docker.config
+      #- ./Generator/news-data.csv:/usr/src/generator/news-data.csv
+      #- ./Generator/news-index.csv:/usr/src/generator/news-index.csv
+  collector:
+    build: 
+      context: ../Collector
+      dockerfile: Dockerfile.collector
+    # Uncomment the next lines if you want to pass params files through volumes. In that case, the paths must be specified.
+    #volumes:
+    #- ./Collector/params_docker.config:/usr/src/collector/params_docker.config
+  estimator:
+    build: 
+      context: ../Estimator
+      dockerfile: Dockerfile.estimator
+    # Uncomment the next lines if you want to pass params files through volumes. In that case, the paths must be specified.
+    #volumes:
+    #- ./Estimator/params_docker.txt:/usr/src/estimator/params_docker.txt
+  predictor:
+    build: 
+      context: ../Predictor
+      dockerfile: Dockerfile.predictor
+    # Uncomment the next lines if you want to pass params files through volumes. In that case, the paths must be specified.
+    #volumes:
+    #- ./Predictor/params_docker.txt:/usr/src/predictor/params_docker.txt
+  learner:
+    build: 
+      context: ../Learner
+      dockerfile: Dockerfile.learner
+    # Uncomment the next lines if you want to pass params files through volumes. In that case, the paths must be specified.
+    #volumes:
+    #- ./Learner/params_docker.txt:/usr/src/learner/params_docker.txt
+

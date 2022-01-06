@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-service
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    app: zookeeper
+  ports:
+  - protocol: TCP
+    targetPort: 2181
+    port: 2181
+    nodePort: 30182
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: zookeeper-pod
+  namespace: default
+  labels:
+    app: zookeeper
+spec:
+  containers:
+  - name: zookeeper-container
+    image: zookeeper
+    imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-service
+  namespace: default
+spec:
+  selector:
+    app: kafka-broker
+  ports:
+  - protocol: TCP
+    targetPort: 9092
+    port: 9092
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kafka
+  namespace: default
+  labels:
+    app: kafka-broker
+spec:
+  containers:
+  - name: kafka-container
+    image: wurstmeister/kafka
+    imagePullPolicy: IfNotPresent
+    env:
+    - name: KAFKA_ADVERTISED_HOST_NAME
+      value: kafka
+    - name: KAFKA_CREATE_TOPICS
+      value: "tweets:1:1,cascade_series:3:1,cascade_properties:2:1,samples:1:1,alerts:1:1,stats:1:1,logs:1:1,models:1:1"
+    - name: HOST_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.hostIP 
+    - name: KAFKA_ZOOKEEPER_CONNECT
+      value: "$(HOST_IP):30182"
+    - name: POD_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.podIP
+    - name: KAFKA_ADVERTISED_LISTENERS        
+      value: "PLAINTEXT://$(POD_IP):9092"

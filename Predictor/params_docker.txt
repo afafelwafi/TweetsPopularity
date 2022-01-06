@@ -1,0 +1,20 @@
+# Predictor parameter file. Do not use spaces around =.
+
+[kafka]
+brokers=kafka-service:9092
+
+[topics]
+# The topic on which to listen for the cascades of tweets
+in_1=cascade_properties
+in_2=models
+# The topic on which to produce the partial series
+out_1=samples
+out_2=alerts
+out_3=stats
+
+[size_threshold]
+# If the size predicted is above the threshold, an alert is send to the dashboard
+size_threshold=1
+
+
+

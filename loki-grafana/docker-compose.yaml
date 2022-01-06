@@ -1,0 +1,58 @@
+version: "3"
+
+networks:
+  loki:
+
+services:
+  zookeeper:
+    image: zookeeper
+    ports:
+      - "2181:2181"
+
+  kafka-service:
+    image: wurstmeister/kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 0 
+      KAFKA_CREATE_TOPICS: "tweets,alerts"
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_ADVERTISED_HOST_NAME: "kafka-service"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://:9092"
+      
+
+  loki:
+    image: grafana/loki:1.6.0
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - loki
+
+  promtail:
+    image: grafana/promtail:1.6.0
+    volumes:
+      - /var/log:/var/log
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - loki
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - loki
+      
+  vector:
+    image: timberio/vector:0.10.0-alpine
+    depends_on:
+      - zookeeper
+    volumes:
+      - "./vector.toml:/etc/vector/vector.toml:ro"    
+    networks:
+      - loki
+    
+   

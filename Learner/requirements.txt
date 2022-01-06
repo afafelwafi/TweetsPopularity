@@ -1,0 +1,5 @@
+scikit-learn
+kafka-python
+numpy
+pandas
+pytest

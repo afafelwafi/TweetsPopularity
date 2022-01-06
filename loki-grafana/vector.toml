@@ -1,0 +1,15 @@
+[sources.in]
+  type="kafka"
+  bootstrap_servers = "localhost:9092" # required
+  group_id = "consumer-logs" # required
+  topics = ["tweets"] # required
+
+[sinks.out]
+  # General
+  endpoint = "http://localhost:3100" # required
+  inputs = ["in"] # required
+  type = "loki" # required
+
+  # Labels
+  labels.key = "value" # example
+

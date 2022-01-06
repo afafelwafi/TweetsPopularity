@@ -1,0 +1,21 @@
+# YAML file to create the images of the middleware (zookeeper+kafka) at one using the compose function of docker
+
+version: '3.3'
+
+services:
+  zookeeper:
+    image: zookeeper
+    ports:
+      - "2181:2181"
+
+  kafka-service:
+    image: wurstmeister/kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_CREATE_TOPICS: "tweets:1:1,cascade_series:1:1,cascade_properties:1:1,samples:1:1,alerts:1:1,stats:1:1,logs:1:1,models:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_ADVERTISED_HOST_NAME: "kafka-service"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka-service:9092"

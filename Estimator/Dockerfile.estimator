@@ -1,0 +1,13 @@
+# Dockerfile used to provide and environment to run the estimator
+
+FROM python:3.7-slim
+
+WORKDIR /usr/src/estimator
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+CMD ["python", "./estimator.py", "./params_docker.txt" ]
+

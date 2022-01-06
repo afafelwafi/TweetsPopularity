@@ -1,0 +1,118 @@
+stages:
+    - build_executables
+    - create_docker_images
+
+build_generator_job:
+    stage: build_executables
+    tags:
+    - docker
+    image: caracal97/env_build
+    script:
+        - g++ -o tweet-generator -O3 -Wall -std=c++17 `pkg-config --libs --cflags gaml cppkafka` -lpthread Generator/tweet-generator.cpp -lcppkafka -lrdkafka
+    only:
+        changes:
+            - Generator/**/*
+    artifacts:
+        paths:
+            - Generator/tweet-generator
+        expire_in: 3 mos
+
+build_collector_job:
+    stage: build_executables
+    tags:
+    - docker
+    image: caracal97/env_build
+    script:
+        - g++ -o tweet-collector -O3 -Wall -std=c++17 `pkg-config --libs --cflags gaml cppkafka` -lpthread Collector/tweet-collector.cpp -lcppkafka -lrdkafka
+    only:
+        changes:
+            - Collector/**/*
+    artifacts:
+        paths:
+            - Collector/tweet-collector
+        expire_in: 3 mos
+
+services:
+  - docker:dind
+
+create_logger_docker_image_job:
+    stage: create_docker_images
+    image: docker:latest
+    script:
+        - cd Logger
+        - docker build -t $CI_REGISTRY_IMAGE/logger -f Dockerfile.logger .
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker push $CI_REGISTRY_IMAGE/logger
+    only:
+        changes:
+            - Logger/**/*
+
+services:
+  - docker:dind
+create_generator_docker_image_job:
+    stage: create_docker_images
+    image: docker:latest
+    script:
+        - cd Generator
+        - docker build -t $CI_REGISTRY_IMAGE/generator -f Dockerfile.generator .
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker push $CI_REGISTRY_IMAGE/generator
+    only:
+        changes:
+            - Generator/**/*
+
+services:
+  - docker:dind
+create_collector_docker_image_job:
+    stage: create_docker_images
+    image: docker:latest
+    script:
+        - cd Collector
+        - docker build -t $CI_REGISTRY_IMAGE/collector -f Dockerfile.collector .
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker push $CI_REGISTRY_IMAGE/collector
+    only:
+        changes:
+            - Collector/**/*
+
+services:
+  - docker:dind
+create_estimator_docker_image_job:
+    stage: create_docker_images
+    image: docker:latest
+    script:
+        - cd Estimator
+        - docker build -t $CI_REGISTRY_IMAGE/estimator -f Dockerfile.estimator .
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker push $CI_REGISTRY_IMAGE/estimator
+    only:
+        changes:
+            - Estimator/**/*
+            
+services:
+  - docker:dind
+create_predictor_docker_image_job:
+    stage: create_docker_images
+    image: docker:latest
+    script:
+        - cd Predictor
+        - docker build -t $CI_REGISTRY_IMAGE/predictor -f Dockerfile.predictor .
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker push $CI_REGISTRY_IMAGE/predictor
+    only:
+        changes:
+            - Predictor/**/*
+            
+services:
+  - docker:dind
+create_learner_docker_image_job:
+    stage: create_docker_images
+    image: docker:latest
+    script:
+        - cd Learner
+        - docker build -t $CI_REGISTRY_IMAGE/learner -f Dockerfile.learner .
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker push $CI_REGISTRY_IMAGE/learner
+    only:
+        changes:
+            - Learner/**/*

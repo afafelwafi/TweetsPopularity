@@ -1,0 +1,125 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: logger-pod
+  namespace: default
+spec:
+  # Uncomment the next lines if you want to pass params files through volumes. In that case, the paths must be specified.
+  #volumes:
+  #- name: logger-vol
+  #  hostPath:
+  #    path: /usr/users/cpusdi1/cpusdi1_20/tweetoscope/logger/params_docker.txt
+  #    type: File
+  containers:
+  - name: logger-container
+    image: gitlab-student.centralesupelec.fr:4567/yasmine.bennani/tweetoscope/logger
+    imagePullPolicy: IfNotPresent
+  # Uncomment the next lines if you want to pass params files through volumes. In that case, the paths must be specified.
+  #  volumeMounts:
+  #  - name: logger-vol
+  #    mountPath: /usr/src/logger/params_docker.txt
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: generator-pod
+  namespace: default
+spec:
+  # Uncomment the next lines if you want to pass params files and the .csv files through volumes. In that case, 
+  # the paths must be specified.
+  #volumes:
+  #- name: generator-param-vol
+  #  hostPath:
+  #    path: /usr/users/cpusdi1/cpusdi1_20/tweetoscope/generator/params_docker.config
+  #    type: File
+  containers:
+  - name: generator-container
+    image: gitlab-student.centralesupelec.fr:4567/yasmine.bennani/tweetoscope/generator
+    imagePullPolicy: IfNotPresent
+    #volumeMounts:
+    #- name: generator-param-vol
+    #  mountPath: /usr/src/generator/params_docker.config                                                     
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: collector-pod
+  namespace: default
+spec:
+  # Uncomment the next lines if you want to pass params files through volumes. In that case, the paths must be specified.
+  #volumes:
+  #- name: collector-vol
+  #  hostPath:
+  #    path: /usr/users/cpusdi1/cpusdi1_20/tweetoscope/collector/params_docker.config
+  #    type: File
+  containers:
+  - name: collector-container
+    image: gitlab-student.centralesupelec.fr:4567/yasmine.bennani/tweetoscope/collector
+    imagePullPolicy: IfNotPresent
+  # Uncomment the next lines if you want to pass params files through volumes. In that case, the paths must be specified.
+  #  volumeMounts:
+  #  - name: collector-vol
+  #    mountPath: /usr/src/collector/params_docker.config
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: estimator-pod
+  namespace: default
+spec:
+  # Uncomment the next lines if you want to pass params files through volumes. In that case, the paths must be specified.
+  #volumes:
+  #- name: estimator-vol
+  #  hostPath:
+  #    path: /usr/users/cpusdi1/cpusdi1_20/tweetoscope/estimator/params_docker.txt
+  #    type: File
+  containers:
+  - name: estimator-container
+    image: gitlab-student.centralesupelec.fr:4567/yasmine.bennani/tweetoscope/estimator
+    imagePullPolicy: IfNotPresent
+  # Uncomment the next lines if you want to pass params files through volumes. In that case, the paths must be specified.
+  #  volumeMounts:
+  #  - name: estimator-vol
+  #    mountPath: /usr/src/estimator/params_docker.txt
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: predictor-pod
+  namespace: default
+spec:
+  # Uncomment the next lines if you want to pass params files through volumes. In that case, the paths must be specified.
+  #volumes:
+  #- name: predictor-vol
+  #  hostPath:
+  #    path: /usr/users/cpusdi1/cpusdi1_20/tweetoscope/predictor/params_docker.txt
+  #    type: File
+  containers:
+  - name: predictor-container
+    image: gitlab-student.centralesupelec.fr:4567/yasmine.bennani/tweetoscope/predictor
+    imagePullPolicy: IfNotPresent
+    # Uncomment the next lines if you want to pass params files through volumes. In that case, the paths must be specified.
+    #volumeMounts:
+    #- name: predictor-vol
+    #  mountPath: /usr/src/predictor/params_docker.txt
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: learner-pod
+  namespace: default
+spec:
+  # Uncomment the next lines if you want to pass params files through volumes. In that case, the paths must be specified.
+  #volumes:
+  #- name: learner-vol
+  #  hostPath:
+  #    path: /usr/users/cpusdi1/cpusdi1_20/tweetoscope/learner/params_docker.txt
+  containers:
+  - name: learner-container
+    image: gitlab-student.centralesupelec.fr:4567/yasmine.bennani/tweetoscope/learner
+    imagePullPolicy: IfNotPresent
+    # Uncomment the next lines if you want to pass params files through volumes. In that case, the paths must be specified.
+    #volumeMounts:
+    #- name: learner-vol
+    #  mountPath: /usr/src/learner/params_docker.txt
+

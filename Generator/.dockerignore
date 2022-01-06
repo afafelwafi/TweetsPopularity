@@ -1,0 +1,2 @@
+# .idx files must not be sent to the docker container. Otherwise, it could cause an std:bad_alloc error later.
+*.idx

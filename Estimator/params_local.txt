@@ -1,0 +1,30 @@
+# Hawkes estimator parameter file. Do not use spaces around =.
+
+[kafka]
+brokers=localhost:9092
+
+[topic]
+# The topic on which to listen for the cascades of tweets
+in_=cascade_series
+# The topic on which to produce the partial series
+out_=cascade_properties
+
+[initial_params]
+# Initial prior parameters
+prior_params=[0.02, 0.0002, 0.01, 0.001, -0.1]
+
+[max_n_star]
+# Maximum authorized value of the branching factor (defines the upper bound of p)
+max_n_star=1
+
+[alpha, mu]
+# Parameters of the power law distribution used to generates the values of M (magnitude)
+alpha=2.3
+mu=10
+
+[estimator]
+# Type of estimator used (MLE, MAP etc.)
+estimator_type=MAP
+
+
+

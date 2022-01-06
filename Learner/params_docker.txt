@@ -1,0 +1,16 @@
+# learner estimator parameter file. Do not use spaces around =.
+
+[kafka]
+brokers=kafka-service:9092
+
+[topics]
+# The topic on which to listen for the cascades of tweets
+in_=samples
+# The topic on which to produce the partial series
+out_=models
+
+[treshold_to_learn]
+treshold_to_learn=15
+
+[model_type]
+model=RandomForest
