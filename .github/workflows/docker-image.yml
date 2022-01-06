@@ -59,8 +59,6 @@ create_generator_docker_image_job:
         changes:
             - Generator/**/*
 
-services:
-  - docker:dind
 create_collector_docker_image_job:
     stage: create_docker_images
     image: docker:latest
