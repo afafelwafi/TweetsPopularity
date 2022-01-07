@@ -21,3 +21,23 @@ jobs:
         with:
           name: generator
           path: Generator/tweet-generator
+          
+  build_collector_job:
+    name: build_collector_job
+    runs-on: ubuntu-latest
+    container: caracal97/env_build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: run
+        run: g++ -o tweet-collector -O3 -Wall -std=c++17 `pkg-config --libs --cflags gaml cppkafka` -lpthread Collector/tweet-collector.cpp -lcppkafka -lrdkafka
+  
+      - name: Upload collector
+        uses: actions/upload-artifact@v2
+        with:
+          name: collector
+          path: Collector/tweet-collector
+          
+          
+ 
