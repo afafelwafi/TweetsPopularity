@@ -1,13 +1,9 @@
+
 on:
   push:
     branches:
-      - 'master'
-    tags:
-      - '*.*.*'
-  pull_request:
-    branches:
-      - 'master'
-      
+    - main
+    - release/*
 jobs:
   build_generator_job:
     name: build_generator_job
