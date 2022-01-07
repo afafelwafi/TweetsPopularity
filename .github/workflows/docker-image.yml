@@ -10,8 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     container: caracal97/env_build
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
       - name: run
-        run: g++ -o tweet-generator -O3 -Wall -std=c++17 `pkg-config --libs --cflags gaml cppkafka` -lpthread ~/Generator/tweet-generator.cpp -lcppkafka -lrdkafka
+        run: g++ -o tweet-generator -O3 -Wall -std=c++17 `pkg-config --libs --cflags gaml cppkafka` -lpthread Generator/tweet-generator.cpp -lcppkafka -lrdkafka
   
       - name: Upload generator
         uses: actions/upload-artifact@v2
