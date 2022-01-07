@@ -7,34 +7,18 @@ on:
   pull_request:
     branches:
       - 'master'
-
-build_generator_job:
-    stage: build_executables
-    tags:
-    - docker
-    image: caracal97/env_build
-    script:
-        - g++ -o tweet-generator -O3 -Wall -std=c++17 `pkg-config --libs --cflags gaml cppkafka` -lpthread Generator/tweet-generator.cpp -lcppkafka -lrdkafka
-    only:
-        changes:
-            - Generator/**/*
-    artifacts:
-        paths:
-            - Generator/tweet-generator
-        expire_in: 3 mos
-
-jobs: 
-    stage: build_executables
-    tags:
-    - docker
-    image: caracal97/env_build
-    script:
-        - g++ -o tweet-collector -O3 -Wall -std=c++17 `pkg-config --libs --cflags gaml cppkafka` -lpthread Collector/tweet-collector.cpp -lcppkafka -lrdkafka
-    only:
-        changes:
-            - Collector/**/*
-    artifacts:
-        paths:
-            - Collector/tweet-collector
-        expire_in: 3 mos
-
+      
+jobs:
+  build_generator_job:
+    name: build_generator_job
+    runs-on: ubuntu-latest
+    container: caracal97/env_build
+    steps:
+      - name: run
+        run: g++ -o tweet-generator -O3 -Wall -std=c++17 `pkg-config --libs --cflags gaml cppkafka` -lpthread Generator/tweet-generator.cpp -lcppkafka -lrdkafka
+  
+      - name: Upload generator
+        uses: actions/upload-artifact@v2
+        with:
+          name: generator
+          path: Generator/tweet-generator
