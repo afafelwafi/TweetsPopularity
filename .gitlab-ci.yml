@@ -5,7 +5,7 @@ stages:
 build_generator_job:
     stage: build_executables
     tags:
-    - docker
+    - docker #comm
     image: caracal97/env_build
     script:
         - g++ -o tweet-generator -O3 -Wall -std=c++17 `pkg-config --libs --cflags gaml cppkafka` -lpthread Generator/tweet-generator.cpp -lcppkafka -lrdkafka
