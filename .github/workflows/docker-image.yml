@@ -46,6 +46,8 @@ jobs:
     runs-on: ubuntu-latest
     container: docker:latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: run 
         run:  cd Logger
       - name: run 
@@ -60,6 +62,8 @@ jobs:
     runs-on: ubuntu-latest
     container: docker:latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: run 
         run:  cd Generator
       - name: run 
