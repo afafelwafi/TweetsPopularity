@@ -53,11 +53,9 @@ jobs:
       - name: run 
         run:  ls
       - name: run 
-        run:  docker build -t ghcr.io/logger -f Logger/Dockerfile.logger .
-      - name: run 
-        run:  docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY     
+        run:  docker build -t ghcr.io/logger -f Logger/Dockerfile.logger . 
       - name: push
-        run:  docker push $CI_REGISTRY_IMAGE/logger    
+        run:  docker push ghcr.io/logger    
         
       - name: Upload Logger
         uses: actions/upload-artifact@v2
