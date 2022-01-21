@@ -51,7 +51,7 @@ jobs:
       - name: run 
         run:  cd Logger
       - name: run 
-        run:  docker build -t $CI_REGISTRY_IMAGE/logger -f Dockerfile.logger .
+        run:  docker build -t ghcr.io/logger -f Dockerfile.logger .
       - name: run 
         run:  docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY     
       - name: run 
