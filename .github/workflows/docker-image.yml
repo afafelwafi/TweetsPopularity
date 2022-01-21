@@ -56,7 +56,7 @@ jobs:
         run:  docker build -t ghcr.io/logger -f Logger/Dockerfile.logger .
       - name: run 
         run:  docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY     
-      - name: run 
+      - name: push
         run:  docker push $CI_REGISTRY_IMAGE/logger    
         
       - name: Upload Logger
