@@ -11,5 +11,5 @@ RUN pip install --no-cache-dir -r Logger/requirements.txt
 
 COPY . .
 
-CMD python3 logger.py --broker-list localhost:9092,kafka-service:9092
+CMD python3 Logger/logger.py --broker-list localhost:9092,kafka-service:9092
 
