@@ -4,10 +4,10 @@ FROM python:3.7-slim
 
 WORKDIR /usr/src/logger
 
-COPY requirements.txt ./
+COPY Logger/requirements.txt ./
 RUN pip3 install --upgrade pip
 RUN pip install --upgrade pip setuptools wheel
-RUN pip install --no-cache-dir -r Logger/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
