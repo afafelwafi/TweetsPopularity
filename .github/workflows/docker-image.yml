@@ -54,9 +54,19 @@ jobs:
         run:  ls
       - name: run 
         run:  docker build -t ghcr.io/logger -f Logger/Dockerfile.logger . 
+     
+          
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: logger/app:latest
+     
+     
+     
       - name: push
-        run:  docker push ghcr.io/logger    
-        
+        run:  docker push ghcr.io/logger   
       - name: Upload Logger
         uses: actions/upload-artifact@v2
         with:
