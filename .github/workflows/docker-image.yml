@@ -57,22 +57,11 @@ jobs:
       - name: run 
         run:  docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY     
       - name: run 
-        run:  docker push $CI_REGISTRY_IMAGE/logger      
+        run:  docker push $CI_REGISTRY_IMAGE/logger    
+        
+      - name: Upload Logger
+        uses: actions/upload-artifact@v2
+        with:
+          name: logger
+          path: Logger/tweet-logger
 
-  create_generator_docker_image_job:
-    name: create_generator_docker_image_job
-    runs-on: ubuntu-latest
-    container: docker:latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: run 
-        run:  cd Generator
-      - name: run 
-        run:  docker build -t $CI_REGISTRY_IMAGE/generator -f Dockerfile.generator .
-      - name: run 
-        run:  ddocker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY  
-      - name: run 
-        run:  docker push $CI_REGISTRY_IMAGE/generator
-     
-     
